@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.seedfinding.neil.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "AddPresets",
+    "AddStronghold",
+    "MakeStructureAirLess",
+    "SetPlayPos00",
+    "AddPresets$SuperflatPreset"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
