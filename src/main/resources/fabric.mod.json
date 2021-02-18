@@ -10,7 +10,7 @@
   ],
   "license": "MIT",
   "icon": "assets/vizard/icon.png",
-
+  "accessWidener": "vizard.accesswidener",
   "environment": "*",
   "entrypoints": {
     "main": [

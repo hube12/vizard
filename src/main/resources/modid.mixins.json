@@ -7,8 +7,7 @@
     "AddPresets",
     "AddStronghold",
     "MakeStructureAirLess",
-    "SetPlayPos00",
-    "AddPresets$SuperflatPreset"
+    "SetPlayPos00"
   ],
   "injectors": {
     "defaultRequire": 1

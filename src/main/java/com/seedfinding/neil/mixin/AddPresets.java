@@ -28,23 +28,20 @@ import java.util.List;
 
 @Mixin(PresetsScreen.class)
 public class AddPresets {
-    @Mixin(targets = {"net.minecraft.client.gui.screen.PresetsScreen$SuperflatPreset" })
-    static class SuperflatPreset {
-        @Final
-        @Shadow
-        public Text name;
-    }
+//    @Mixin(targets = {"net.minecraft.client.gui.screen.PresetsScreen$SuperflatPreset"})
+//    public interface SuperflatPreset {
+//        @Accessor
+//        Text getName();
+//    }
 
     @Final
     @Shadow
-    private static List<?> PRESETS; // this is done because net.minecraft.client.gui.screen.PresetsScreen$SuperflatPreset ain't accessible
-//    private static List<SuperflatPreset> PRESETS; // this is done because net.minecraft.client.gui.screen.PresetsScreen$SuperflatPreset ain't accessible
-//
-//    @Inject(method = "<init>*", at = @At("RETURN"))
-//    public void sortList(CallbackInfo ci) {
-//        System.out.println(PRESETS.size());
-//        System.out.println(PRESETS.get(0).name);
-//    }
+    private static List<PresetsScreen.SuperflatPreset> PRESETS; // we use an access widener (AW) here
+
+    @Inject(method = "<init>*", at = @At("RETURN"))
+    public void sortList(CallbackInfo ci) {
+       PRESETS.sort(Comparator.comparing(a -> a.name.asString()));
+    }
 
 
     @Shadow
