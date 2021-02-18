@@ -29,17 +29,10 @@ import java.util.List;
 
 @Mixin(PresetsScreen.class)
 public class AddPresets {
-//    @Mixin(targets = {"net.minecraft.client.gui.screen.PresetsScreen$SuperflatPreset"})
-//    public interface SuperflatPreset {
-//        @Accessor
-//        Text getName();
-//    }
-
-
     @Final
     @Shadow
     @Mutable
-    private static List<PresetsScreen.SuperflatPreset> PRESETS; // we use an access widener (AW) here
+    private static List<AccessFlatPreset> PRESETS; // we use an accesor (don't put it in the inner class)
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void sortList(CallbackInfo ci) {

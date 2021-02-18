@@ -18,7 +18,7 @@
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "vizard.mixins.json"
   ],
 
   "depends": {
