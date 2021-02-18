@@ -15,6 +15,7 @@ import net.minecraft.world.gen.chunk.FlatChunkGeneratorLayer;
 import net.minecraft.world.gen.feature.StructureFeature;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
@@ -34,13 +35,15 @@ public class AddPresets {
 //        Text getName();
 //    }
 
+
     @Final
     @Shadow
+    @Mutable
     private static List<PresetsScreen.SuperflatPreset> PRESETS; // we use an access widener (AW) here
 
-    @Inject(method = "<init>*", at = @At("RETURN"))
+    @Inject(method = "<init>", at = @At("RETURN"))
     public void sortList(CallbackInfo ci) {
-       PRESETS.sort(Comparator.comparing(a -> a.name.asString()));
+        PRESETS.sort(Comparator.comparing(a -> a.getName().getString()));
     }
 
 
