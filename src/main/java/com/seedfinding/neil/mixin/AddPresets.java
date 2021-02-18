@@ -1,11 +1,9 @@
 package com.seedfinding.neil.mixin;
 
-import com.google.common.collect.Lists;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.screen.PresetsScreen;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
-import net.minecraft.structure.StructurePiece;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.registry.RegistryKey;
@@ -17,12 +15,10 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -32,7 +28,7 @@ public class AddPresets {
     @Final
     @Shadow
     @Mutable
-    private static List<AccessFlatPreset> PRESETS; // we use an accesor (don't put it in the inner class)
+    private static List<AccessFlatPreset> PRESETS; // we use an accessor (don't put it in the inner class)
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void sortList(CallbackInfo ci) {
