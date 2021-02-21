@@ -7,13 +7,17 @@
     "AccessFlatPreset",
     "AddPresets",
     "AddStronghold",
+    "ClientPlayerEntityMixin",
+    "ClientPlayNetworkHandlerMixin",
     "MakeStructureAirLess",
     "SetPlayPos00",
     "ThreadStructureGen",
-    "ClientPlayerEntityMixin",
-    "ClientPlayNetworkHandlerMixin"
+    "Disconnect"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "mixins": [
+
+  ]
 }

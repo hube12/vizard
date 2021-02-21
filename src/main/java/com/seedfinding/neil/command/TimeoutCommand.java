@@ -2,16 +2,15 @@ package com.seedfinding.neil.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import com.seedfinding.neil.GenController;
-import com.seedfinding.neil.Main;
+import com.seedfinding.neil.Instance;
+import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.Formatting;
 
 import static com.mojang.brigadier.arguments.IntegerArgumentType.getInteger;
 import static com.mojang.brigadier.arguments.IntegerArgumentType.integer;
-import static com.mojang.brigadier.builder.RequiredArgumentBuilder.argument;
 
-public class SetTimeoutCommand extends ClientCommand{
+public class TimeoutCommand extends ClientCommand {
     @Override
     public String getName() {
         return "time";
@@ -19,14 +18,24 @@ public class SetTimeoutCommand extends ClientCommand{
 
     @Override
     public void build(LiteralArgumentBuilder<ServerCommandSource> builder) {
-        builder.then(argument("n",integer(200,Integer.MAX_VALUE))).
-                executes(ctx->start(ctx,getInteger(ctx,"n")));
+        builder.executes(this::getTime).then(
+                CommandManager.argument("n", integer(0, Integer.MAX_VALUE)).
+                        executes(ctx -> this.setTime(getInteger(ctx, "n")))
+        );
     }
 
-    public int start(CommandContext<ServerCommandSource> context,int n){
-        Main.genController.stop();
-        Main.genController.setTime(n);
-        Main.genController.start();
+    public int setTime(int n) {
+        int res = Instance.genController.stop();
+        Instance.genController.setTime(n);
+        if (res == 0) {
+            Instance.genController.start();
+        }
+        ClientCommand.sendFeedback("Time between pieces has been set to : " + Instance.genController.getTime(), Formatting.DARK_GREEN, false);
+        return 0;
+    }
+
+    public int getTime(CommandContext<ServerCommandSource> context) {
+        ClientCommand.sendFeedback("Time between pieces is : " + Instance.genController.getTime(), Formatting.DARK_GREEN, false);
         return 0;
     }
 

@@ -11,6 +11,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class Disconnect {
     @Inject(method = "disconnect", at = @At("HEAD"))
     private void disconnect(CallbackInfo ci) {
-        GenController.reset();
+        GenController.reset(); // TODO safe handling of not compliant
     }
 }

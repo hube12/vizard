@@ -1,9 +1,16 @@
-# Fabric Example Mod
+# Vizard
 
-## Setup
+This is a mod to show the structure generation process
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+3 superflat presets exits: 
+- Stronghold
+- Mineshaft
+- Fortress
 
-## License
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+Current bugs are:
+
+- Not saving to chunk when leaving area (save proto to worldchunks)
+- Laggy client network (fix bitmask)
+- Thread sync on disconnect is not ensured
+
