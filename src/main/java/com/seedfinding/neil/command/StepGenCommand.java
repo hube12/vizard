@@ -2,14 +2,15 @@ package com.seedfinding.neil.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import com.seedfinding.neil.GenController;
 import com.seedfinding.neil.Main;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.Formatting;
 
-public class StartGenCommand extends ClientCommand{
+public class StepGenCommand extends ClientCommand{
     @Override
     public String getName() {
-        return "start";
+        return "step";
     }
 
     @Override
@@ -18,12 +19,8 @@ public class StartGenCommand extends ClientCommand{
     }
 
     public int start(CommandContext<ServerCommandSource> context){
-        boolean res= Main.genController.start();
-        if (res){
-            sendFeedback("Started structure gen", Formatting.GREEN, false);
-        }else{
-            sendFeedback("Can not start structure gen (already running)", Formatting.RED, false);
-        }
+        GenController.step();
+        sendFeedback("Stepped structure gen once", Formatting.GREEN, false);
         return 0;
     }
 

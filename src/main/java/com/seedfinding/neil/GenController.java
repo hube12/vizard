@@ -27,6 +27,7 @@ public class GenController {
         if (future != null) {
             return false;
         }
+        System.out.println("Launched future");
         future = scheduler.scheduleAtFixedRate(GenController::step, time, time, TimeUnit.MILLISECONDS);
         return true;
     }
@@ -74,6 +75,7 @@ public class GenController {
                 }
             }
         }
+        System.out.println("No hanging thread");
         for (Pair<Thread, TransferQueue<String>> pair : pairs) {
             Thread thread = pair.getFirst();
             if (thread.isAlive()) {

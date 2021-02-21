@@ -22,10 +22,14 @@ public class ClientCommands {
     public static final String PREFIX = "gen";
     public static final List<ClientCommand> COMMANDS = new ArrayList<>();
 
-    public static StartGenCommand RENDER;
+    public static StartGenCommand START;
+    public static StopGenCommand STOP;
+    public static StepGenCommand STEP;
 
     static {
-        COMMANDS.add(RENDER = new StartGenCommand());
+        COMMANDS.add(START = new StartGenCommand());
+        COMMANDS.add(STOP = new StopGenCommand());
+        COMMANDS.add(STEP = new StepGenCommand());
     }
 
     public static void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher) {
@@ -45,12 +49,12 @@ public class ClientCommands {
         return false;
     }
 
-    public static int executeCommand(StringReader reader) {
+    public static void executeCommand(StringReader reader) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
 
         try {
             assert player != null;
-            return player.networkHandler.getCommandDispatcher().execute(reader, new FakeCommandSource(player));
+            player.networkHandler.getCommandDispatcher().execute(reader, new FakeCommandSource(player));
         } catch(CommandException e) {
             ClientCommand.sendFeedback("ur bad, git gud command", Formatting.RED, false);
             e.printStackTrace();
@@ -62,7 +66,6 @@ public class ClientCommands {
             e.printStackTrace();
         }
 
-        return 1;
     }
 
     /**

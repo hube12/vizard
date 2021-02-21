@@ -6,10 +6,10 @@ import com.seedfinding.neil.Main;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.Formatting;
 
-public class StartGenCommand extends ClientCommand{
+public class StopGenCommand extends ClientCommand{
     @Override
     public String getName() {
-        return "start";
+        return "stop";
     }
 
     @Override
@@ -18,11 +18,13 @@ public class StartGenCommand extends ClientCommand{
     }
 
     public int start(CommandContext<ServerCommandSource> context){
-        boolean res= Main.genController.start();
-        if (res){
-            sendFeedback("Started structure gen", Formatting.GREEN, false);
+        int res= Main.genController.stop();
+        if (res==0){
+            sendFeedback("Stopped structure gen", Formatting.GREEN, false);
+        }else if (res==-1){
+            sendFeedback("Can not stop structure gen (nothing has started)", Formatting.RED, false);
         }else{
-            sendFeedback("Can not start structure gen (already running)", Formatting.RED, false);
+            sendFeedback("Can not stop structure gen (nothing running)", Formatting.DARK_RED, false);
         }
         return 0;
     }

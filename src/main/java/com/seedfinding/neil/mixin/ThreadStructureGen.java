@@ -27,52 +27,62 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedTransferQueue;
 import java.util.concurrent.TransferQueue;
 
 @Mixin(StructureStart.class)
 public class ThreadStructureGen {
+    private static int counter = 0;
     @Final
     @Shadow
     protected List<StructurePiece> children;
 
-    @Inject(at=@At("HEAD"),method = "generateStructure", cancellable = true)
+    @Inject(at = @At("HEAD"), method = "generateStructure", cancellable = true)
     public void threadIt(StructureWorldAccess world, StructureAccessor structureAccessor, ChunkGenerator chunkGenerator, Random random, BlockBox box, ChunkPos chunkPos, CallbackInfo ci) {
         // cancel everything in that method (giving us complete control over it)
         ci.cancel();
         if (!this.children.isEmpty()) {
-            TransferQueue<String> transferQueue=new LinkedTransferQueue<>();
-            Thread thread= new Thread(() -> {
+            TransferQueue<String> transferQueue = new LinkedTransferQueue<>();
+            Thread thread = new Thread(() -> {
                 BlockBox blockBox = this.children.get(0).getBoundingBox();
                 Vec3i vec3i = blockBox.getCenter();
                 BlockPos blockPos = new BlockPos(vec3i.getX(), blockBox.minY, vec3i.getZ());
                 Iterator<StructurePiece> iterator = this.children.iterator();
-                MinecraftServer server=world.toServerWorld().getServer();
+                MinecraftServer server = world.toServerWorld().getServer();
                 skip:
-                while(iterator.hasNext()) {
-
+                while (iterator.hasNext()) {
                     try {
-                        String msg=transferQueue.take();
-                        if (msg.equals("go")){
-                            // just keep going
-                        }else if (msg.equals("skip")){
-                            iterator.remove();
-                            continue skip;
-                        }else if (msg.equals("kill")){
-                            iterator.forEachRemaining(e->{});
-                            continue skip;
+                        String msg = transferQueue.take();
+                        switch (msg) {
+                            case "go":
+                                // just keep going
+                                System.out.println("STARTING");
+                                break;
+                            case "skip":
+                                iterator.remove();
+                                continue skip;
+                            case "kill":
+                                iterator.forEachRemaining(e -> {});
+                                continue skip;
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     StructurePiece structurePiece = iterator.next();
 
-                    CompletableFuture<Void> future=(server.submit(()->{
+                    CompletableFuture<Void> future = (server.submit(() -> {
                         if (structurePiece.getBoundingBox().intersects(box) && !structurePiece.generate(world, structureAccessor, chunkGenerator, random, box, chunkPos, blockPos)) {
                             iterator.remove();
                         }
                     }));
-                    while (!future.isDone()){
+                    System.out.println("FUTURE STARTED");
+                    try {
+                        future.get();
+                    } catch (InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                    while (!future.isDone()) {
                         try {
                             Thread.sleep(20);
                         } catch (InterruptedException e) {
@@ -81,12 +91,12 @@ public class ThreadStructureGen {
                     }
                     this.setBoundingBoxFromChildren();
                 }
-            });
-            Main.genController.register(thread,transferQueue);
+            }, "STRUCTURE THREAD + " + counter++);
+            Main.genController.register(thread, transferQueue);
             thread.start();
         }
     }
 
     @Shadow
-    protected void setBoundingBoxFromChildren(){}
+    protected void setBoundingBoxFromChildren() {}
 }
