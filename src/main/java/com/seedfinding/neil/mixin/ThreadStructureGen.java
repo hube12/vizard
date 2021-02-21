@@ -4,6 +4,8 @@ package com.seedfinding.neil.mixin;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.seedfinding.neil.Main;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.structure.StructurePiece;
 import net.minecraft.structure.StructureStart;
@@ -70,18 +72,17 @@ public class ThreadStructureGen {
                         e.printStackTrace();
                     }
                     StructurePiece structurePiece = iterator.next();
+                    CompletableFuture<Void> future = server.submit(
+                            () -> {
+                                if (structurePiece.getBoundingBox().intersects(box) && !structurePiece.generate(world, structureAccessor, chunkGenerator, random, box, chunkPos, blockPos)) {
+                                    iterator.remove();
+                                }
+//                                System.out.println("HELLO from "+Thread.currentThread().getName());
+                            }
+                    );
 
-                    CompletableFuture<Void> future = (server.submit(() -> {
-                        if (structurePiece.getBoundingBox().intersects(box) && !structurePiece.generate(world, structureAccessor, chunkGenerator, random, box, chunkPos, blockPos)) {
-                            iterator.remove();
-                        }
-                    }));
-                    System.out.println("FUTURE STARTED");
-                    try {
-                        future.get();
-                    } catch (InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
-                    }
+//                    System.out.println("FUTURE STARTED");
+                    future.join();
                     while (!future.isDone()) {
                         try {
                             Thread.sleep(20);
@@ -89,11 +90,16 @@ public class ThreadStructureGen {
                             e.printStackTrace();
                         }
                     }
-                    this.setBoundingBoxFromChildren();
+//                    System.out.println("FUTURE FINISHED");
                 }
+                this.setBoundingBoxFromChildren();
             }, "STRUCTURE THREAD + " + counter++);
+
+
             Main.genController.register(thread, transferQueue);
             thread.start();
+
+
         }
     }
 
