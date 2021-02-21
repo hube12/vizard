@@ -6,7 +6,9 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.seedfinding.neil.Main;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.network.packet.s2c.play.ChunkDataS2CPacket;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.structure.StructurePiece;
 import net.minecraft.structure.StructureStart;
 import net.minecraft.util.math.BlockBox;
@@ -16,6 +18,8 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.ChunkRegion;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.WorldChunk;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import org.spongepowered.asm.mixin.Final;
@@ -75,6 +79,11 @@ public class ThreadStructureGen {
                     CompletableFuture<Void> future = server.submit(
                             () -> {
                                 if (structurePiece.getBoundingBox().intersects(box) && !structurePiece.generate(world, structureAccessor, chunkGenerator, random, box, chunkPos, blockPos)) {
+                                    WorldChunk chunk= (WorldChunk) world.getChunk(chunkPos.x,chunkPos.z);
+                                    chunk.setShouldSave(true);
+                                    ( (ServerChunkManager) world.getChunkManager()).threadedAnvilChunkStorage.
+                                            getPlayersWatchingChunk(chunkPos, false).
+                                            forEach(s -> s.networkHandler.sendPacket(new ChunkDataS2CPacket(chunk, 65535)));
                                     iterator.remove();
                                 }
 //                                System.out.println("HELLO from "+Thread.currentThread().getName());
