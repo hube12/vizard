@@ -9,9 +9,11 @@
     "AddStronghold",
     "MakeStructureAirLess",
     "SetPlayPos00",
-    "ThreadStructureGen"
+    "ThreadStructureGen",
+    "ClientPlayerEntityMixin",
+    "ClientPlayNetworkHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  },
+  }
 }
