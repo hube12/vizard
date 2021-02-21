@@ -13,4 +13,6 @@ Current bugs are:
 - Not saving to chunk when leaving area (save proto to worldchunks)
 - Laggy client network (fix bitmask)
 - Thread sync on disconnect is not ensured
+- Mineshaft don't generate, dunno why
+
 

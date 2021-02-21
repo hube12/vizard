@@ -1,5 +1,8 @@
 {
   "createWorld.customize.preset.stronghold_madness":"1) Stronghold Madness",
   "createWorld.customize.preset.mineshaft_madness":"2) Mineshaft Madness",
-  "createWorld.customize.preset.fortress_madness":"3) Fortress Madness"
+  "createWorld.customize.preset.fortress_madness":"3) Fortress Madness",
+  "createWorld.customize.preset.end_madness":"4) End Madness",
+  "createWorld.customize.preset.bastion_madness":"5) Bastion Madness"
+
 }
