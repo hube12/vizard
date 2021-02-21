@@ -4,13 +4,14 @@
   "package": "com.seedfinding.neil.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
+    "AccessFlatPreset",
     "AddPresets",
     "AddStronghold",
     "MakeStructureAirLess",
     "SetPlayPos00",
-    "AccessFlatPreset"
+    "ThreadStructureGen"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
 }
