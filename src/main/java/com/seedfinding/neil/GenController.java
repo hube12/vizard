@@ -18,6 +18,10 @@ public class GenController {
 
     }
 
+    public long getTime() {
+        return time;
+    }
+
     public void register(Thread thread, TransferQueue<String> transferQueue) {
         pairs.add(new Pair<>(thread, transferQueue));
     }
@@ -27,7 +31,6 @@ public class GenController {
         if (future != null) {
             return false;
         }
-        System.out.println("Launched future");
         future = scheduler.scheduleAtFixedRate(GenController::step, time, time, TimeUnit.MILLISECONDS);
         return true;
     }
@@ -35,6 +38,10 @@ public class GenController {
     public static boolean clearInactiveThreads() {
         return removeThreads(e -> !e.getFirst().isAlive());
 
+    }
+
+    public void setTime(long time) {
+        this.time = time;
     }
 
     public static boolean clearThreads() {
@@ -100,8 +107,13 @@ public class GenController {
             future = null;
             return 0;
         }
-        System.out.println(future.isDone());
         future = null;
         return 1;
+    }
+
+
+    public static void reset(){
+        Instance.genController.stop();
+        GenController.clearThreads();
     }
 }

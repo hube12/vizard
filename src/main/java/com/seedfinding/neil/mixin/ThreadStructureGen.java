@@ -1,11 +1,7 @@
 package com.seedfinding.neil.mixin;
 
 
-import com.google.common.collect.Lists;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.seedfinding.neil.Main;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import com.seedfinding.neil.Instance;
 import net.minecraft.network.packet.s2c.play.ChunkDataS2CPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerChunkManager;
@@ -15,10 +11,7 @@ import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3i;
-import net.minecraft.world.ChunkRegion;
 import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ProtoChunk;
 import net.minecraft.world.chunk.WorldChunk;
 import net.minecraft.world.gen.StructureAccessor;
@@ -34,7 +27,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedTransferQueue;
 import java.util.concurrent.TransferQueue;
 
@@ -101,7 +93,7 @@ public class ThreadStructureGen {
             }, "STRUCTURE THREAD + " + counter++);
 
 
-            Main.genController.register(thread, transferQueue);
+            Instance.genController.register(thread, transferQueue);
             thread.start();
 
 

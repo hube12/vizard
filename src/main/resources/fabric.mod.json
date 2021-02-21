@@ -14,7 +14,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.seedfinding.neil.Main"
+      "com.seedfinding.neil.Instance"
     ]
   },
   "mixins": [

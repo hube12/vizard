@@ -25,11 +25,13 @@ public class ClientCommands {
     public static StartGenCommand START;
     public static StopGenCommand STOP;
     public static StepGenCommand STEP;
+    public static TimeoutCommand TIME;
 
     static {
         COMMANDS.add(START = new StartGenCommand());
         COMMANDS.add(STOP = new StopGenCommand());
         COMMANDS.add(STEP = new StepGenCommand());
+        COMMANDS.add(TIME = new TimeoutCommand());
     }
 
     public static void registerCommands(CommandDispatcher<ServerCommandSource> dispatcher) {
@@ -56,13 +58,13 @@ public class ClientCommands {
             assert player != null;
             player.networkHandler.getCommandDispatcher().execute(reader, new FakeCommandSource(player));
         } catch(CommandException e) {
-            ClientCommand.sendFeedback("ur bad, git gud command", Formatting.RED, false);
+            ClientCommand.sendFeedback("Command exited weirdly", Formatting.RED, false);
             e.printStackTrace();
         } catch(CommandSyntaxException e) {
-            ClientCommand.sendFeedback("ur bad, git gud syntax", Formatting.RED, false);
+            ClientCommand.sendFeedback("Syntax was incorrect", Formatting.RED, false);
             e.printStackTrace();
         } catch(Exception e) {
-            ClientCommand.sendFeedback("ur bad, wat did u do", Formatting.RED, false);
+            ClientCommand.sendFeedback("That's not supposed to happen, please report it", Formatting.RED, false);
             e.printStackTrace();
         }
 

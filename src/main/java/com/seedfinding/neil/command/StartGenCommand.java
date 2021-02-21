@@ -2,7 +2,7 @@ package com.seedfinding.neil.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import com.seedfinding.neil.Main;
+import com.seedfinding.neil.Instance;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.Formatting;
 
@@ -18,7 +18,7 @@ public class StartGenCommand extends ClientCommand{
     }
 
     public int start(CommandContext<ServerCommandSource> context){
-        boolean res= Main.genController.start();
+        boolean res= Instance.genController.start();
         if (res){
             sendFeedback("Started structure gen", Formatting.GREEN, false);
         }else{

@@ -2,7 +2,7 @@ package com.seedfinding.neil;
 
 import net.fabricmc.api.ModInitializer;
 
-public class Main implements ModInitializer {
+public class Instance implements ModInitializer {
 	public static final GenController genController=new GenController();
 	@Override
 	public void onInitialize() {
