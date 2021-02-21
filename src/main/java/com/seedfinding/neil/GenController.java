@@ -75,7 +75,6 @@ public class GenController {
                 }
             }
         }
-        System.out.println("No hanging thread");
         for (Pair<Thread, TransferQueue<String>> pair : pairs) {
             Thread thread = pair.getFirst();
             if (thread.isAlive()) {

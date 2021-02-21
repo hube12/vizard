@@ -19,6 +19,7 @@ import net.minecraft.world.ChunkRegion;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.ProtoChunk;
 import net.minecraft.world.chunk.WorldChunk;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -63,7 +64,6 @@ public class ThreadStructureGen {
                         switch (msg) {
                             case "go":
                                 // just keep going
-                                System.out.println("STARTING");
                                 break;
                             case "skip":
                                 iterator.remove();
@@ -79,18 +79,15 @@ public class ThreadStructureGen {
                     CompletableFuture<Void> future = server.submit(
                             () -> {
                                 if (structurePiece.getBoundingBox().intersects(box) && !structurePiece.generate(world, structureAccessor, chunkGenerator, random, box, chunkPos, blockPos)) {
-                                    WorldChunk chunk= (WorldChunk) world.getChunk(chunkPos.x,chunkPos.z);
-                                    chunk.setShouldSave(true);
-                                    ( (ServerChunkManager) world.getChunkManager()).threadedAnvilChunkStorage.
-                                            getPlayersWatchingChunk(chunkPos, false).
-                                            forEach(s -> s.networkHandler.sendPacket(new ChunkDataS2CPacket(chunk, 65535)));
                                     iterator.remove();
                                 }
-//                                System.out.println("HELLO from "+Thread.currentThread().getName());
+                                ProtoChunk chunk = (ProtoChunk) world.getChunk(chunkPos.x, chunkPos.z);
+                                chunk.setShouldSave(true);
+                                ((ServerChunkManager) world.getChunkManager()).threadedAnvilChunkStorage.
+                                        getPlayersWatchingChunk(chunkPos, false).
+                                        forEach(s -> s.networkHandler.sendPacket(new ChunkDataS2CPacket(new WorldChunk(world.toServerWorld(), chunk), 65535)));
                             }
                     );
-
-//                    System.out.println("FUTURE STARTED");
                     future.join();
                     while (!future.isDone()) {
                         try {
@@ -99,7 +96,6 @@ public class ThreadStructureGen {
                             e.printStackTrace();
                         }
                     }
-//                    System.out.println("FUTURE FINISHED");
                 }
                 this.setBoundingBoxFromChildren();
             }, "STRUCTURE THREAD + " + counter++);
