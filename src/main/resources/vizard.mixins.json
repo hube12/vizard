@@ -19,6 +19,9 @@
     "structures.mineshaft.MixinAbstractMineshaftPart",
     "structures.mineshaft.MixinMineshaftFeature",
     "structures.stronghold.MixinChunkGenerator",
+    "MixinBiome",
+    "MixinProtoChunk",
+    "MixinStructureAccessor",
     "structures.mineshaft.MixinMineshaftCrossing"
   ],
   "injectors": {

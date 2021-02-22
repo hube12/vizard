@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.ProtoChunk;
 import net.minecraft.world.chunk.WorldChunk;
 import net.minecraft.world.gen.ChunkRandom;
@@ -41,10 +42,13 @@ public class MixinStructureStart {
     @Inject(at = @At("HEAD"), method = "generateStructure", cancellable = true)
     public void threadIt(StructureWorldAccess world, StructureAccessor structureAccessor, ChunkGenerator chunkGenerator, Random random, BlockBox box, ChunkPos chunkPos, CallbackInfo ci) {
         // cancel everything in that method (giving us complete control over it)
+        System.out.println(chunkPos.toString());
         ci.cancel();
         if (!this.children.isEmpty()) {
             TransferQueue<String> transferQueue = new LinkedTransferQueue<>();
             Thread thread = new Thread(() -> {
+                ProtoChunk chunku = (ProtoChunk) world.getChunk(chunkPos.x, chunkPos.z);
+                System.out.println("EEEE "+chunku.getStatus());
                 BlockBox blockBox = this.children.get(0).getBoundingBox();
                 Vec3i vec3i = blockBox.getCenter();
                 BlockPos blockPos = new BlockPos(vec3i.getX(), blockBox.minY, vec3i.getZ());
@@ -70,6 +74,7 @@ public class MixinStructureStart {
                     }
                     StructurePiece structurePiece = iterator.next();
 //                    String name=Thread.currentThread().getName();
+
                     CompletableFuture<Void> future = server.submit(
                             () -> {
                                 if (structurePiece.getBoundingBox().intersects(box) && !structurePiece.generate(world, structureAccessor, chunkGenerator, random, box, chunkPos, blockPos)) {
@@ -83,6 +88,7 @@ public class MixinStructureStart {
                                 ((ServerChunkManager) world.getChunkManager()).threadedAnvilChunkStorage.
                                         getPlayersWatchingChunk(chunkPos, false).
                                         forEach(s -> s.networkHandler.sendPacket(new ChunkDataS2CPacket(new WorldChunk(world.toServerWorld(), chunk), (finalTopY *256)-1)));
+//                                ((ServerChunkManager) world.getChunkManager()).save(true);
                             }
                     );
                     future.join();
@@ -94,7 +100,11 @@ public class MixinStructureStart {
                         }
                     }
                 }
-                this.setBoundingBoxFromChildren();
+//                this.setBoundingBoxFromChildren();
+//                ProtoChunk chunkuw = (ProtoChunk) world.getChunk(chunkPos.x, chunkPos.z);
+//                chunkuw.setStatus(ChunkStatus.EMPTY);
+//                chunkuw.setShouldSave(true);
+//                ((ServerChunkManager) world.getChunkManager()).save(true);
                 Thread.currentThread().interrupt();
             }, "STRUCTURE THREAD + " + counter++);
 //            System.out.println(box.toString()+" "+(counter-1));
