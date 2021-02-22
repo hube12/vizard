@@ -1,4 +1,4 @@
-package com.seedfinding.neil.mixin;
+package com.seedfinding.neil.mixin.structures;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.structure.StructurePiece;
@@ -17,7 +17,7 @@ import java.util.Random;
 
 
 @Mixin(StructurePiece.class)
-public class MakeStructureAirLess {
+public class MixinStructurePiece {
     @ModifyVariable(method = "fillWithOutline(Lnet/minecraft/world/StructureWorldAccess;Lnet/minecraft/util/math/BlockBox;IIIIIILnet/minecraft/block/BlockState;Lnet/minecraft/block/BlockState;Z)V", ordinal = 0, at = @At(value = "HEAD"), argsOnly = true)
     private boolean adjustOutline(boolean cantReplaceAir) {
         return false;

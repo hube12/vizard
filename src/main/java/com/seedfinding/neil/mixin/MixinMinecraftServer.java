@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftServer.class)
-public class SetPlayPos00 {
+public class MixinMinecraftServer {
 	@Inject(at=@At("HEAD"),method = "setupSpawn(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/world/level/ServerWorldProperties;ZZZ)V", cancellable = true)
 	private static void setupSpawn(ServerWorld world, ServerWorldProperties serverWorldProperties, boolean bonusChest, boolean debugWorld, boolean bl,CallbackInfo ci){
 		ChunkGenerator chunkGenerator = world.getChunkManager().getChunkGenerator();

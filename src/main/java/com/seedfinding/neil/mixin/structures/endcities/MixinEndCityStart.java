@@ -1,4 +1,4 @@
-package com.seedfinding.neil.mixin;
+package com.seedfinding.neil.mixin.structures.endcities;
 
 import net.minecraft.structure.EndCityGenerator;
 import net.minecraft.structure.StructureManager;
@@ -14,16 +14,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static com.seedfinding.neil.mixin.IEndCityOverride.getGenerationHeight;
 
 
 @Mixin(EndCityFeature.Start.class)
-public class EndCityStartOverride extends StructureOverride{
+public class MixinEndCityStart extends MixinStructureStart {
     @Inject(at=@At("HEAD"),method = "init", cancellable = true)
     public void init(DynamicRegistryManager dynamicRegistryManager, ChunkGenerator chunkGenerator, StructureManager structureManager, int i, int j, Biome biome, DefaultFeatureConfig defaultFeatureConfig, CallbackInfo ci) {
         ci.cancel();
         BlockRotation blockRotation = BlockRotation.random(this.random);
-        int k = getGenerationHeight(i, j, chunkGenerator);
+        int k = EndCityAccessor.getGenerationHeight(i, j, chunkGenerator);
         if (k >= 0) {
             BlockPos blockPos = new BlockPos(i * 16 + 8, k, j * 16 + 8);
             EndCityGenerator.addPieces(structureManager, blockPos, blockRotation,this.children , this.random);

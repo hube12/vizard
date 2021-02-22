@@ -1,4 +1,4 @@
-package com.seedfinding.neil.mixin;
+package com.seedfinding.neil.mixin.structures;
 
 
 import com.seedfinding.neil.Instance;
@@ -14,6 +14,7 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.chunk.ProtoChunk;
 import net.minecraft.world.chunk.WorldChunk;
+import net.minecraft.world.gen.ChunkRandom;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import org.spongepowered.asm.mixin.Final;
@@ -31,7 +32,7 @@ import java.util.concurrent.LinkedTransferQueue;
 import java.util.concurrent.TransferQueue;
 
 @Mixin(StructureStart.class)
-public class ThreadStructureGen {
+public class MixinStructureStart {
     private static int counter = 0;
     @Final
     @Shadow
@@ -102,4 +103,9 @@ public class ThreadStructureGen {
 
     @Shadow
     protected void setBoundingBoxFromChildren() {}
+
+    @Final
+    @Shadow
+    protected ChunkRandom random;
+
 }

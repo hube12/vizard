@@ -1,4 +1,4 @@
-package com.seedfinding.neil.mixin;
+package com.seedfinding.neil.mixin.structures.endcities;
 
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.biome.Biome;
@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(EndCityFeature.class)
-public class EndCityOverride {
+public class MixinEndCityFeature {
     @Shadow
     private static int getGenerationHeight(int chunkX, int chunkZ, ChunkGenerator chunkGenerator) {
         throw new AbstractMethodError("Shadow");

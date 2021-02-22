@@ -1,4 +1,4 @@
-package com.seedfinding.neil.mixin;
+package com.seedfinding.neil.mixin.structures.stronghold;
 
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(ChunkGenerator.class)
-public class AddStronghold {
+public class MixinChunkGenerator {
 	@Shadow
 	@Mutable
 	@Final

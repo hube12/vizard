@@ -1,4 +1,4 @@
-package com.seedfinding.neil.mixin;
+package com.seedfinding.neil.mixin.structures;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.structure.StructurePiece;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(StructurePiece.class)
-public interface IStructurePiece {
+public interface StructurePieceAccessor {
     @Invoker("getBlockAt")
     BlockState getBlockAt(BlockView blockView, int x, int y, int z, BlockBox blockBox);
 

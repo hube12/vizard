@@ -4,27 +4,26 @@
   "package": "com.seedfinding.neil.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "AccessFlatPreset",
-    "AddPresets",
-    "AddStronghold",
-    "ClientPlayerEntityMixin",
-    "ClientPlayNetworkHandlerMixin",
-    "Disconnect",
-    "EndCityOverride",
-    "EndCityStartOverride",
-    "IEndCityOverride",
-    "MakeStructureAirLess",
-    "SetPlayPos00",
-    "StructureOverride",
-    "ThreadStructureGen"
+    "client.MixinClientPlayerEntity",
+    "client.MixinClientPlayNetworkHandler",
+    "client.MixinClientWorld",
+    "presets.MixinPresetsScreen",
+    "presets.SuperFlatPresetAccessor",
+    "structures.endcities.EndCityAccessor",
+    "structures.endcities.MixinEndCityFeature",
+    "structures.endcities.MixinEndCityStart",
+    "structures.mineshaft.MineshaftSkyLimit",
+    "structures.mineshaft.MixinAbstractMineshaftPart",
+    "structures.mineshaft.MixinMineshaftFeature",
+    "MixinMinecraftServer",
+    "structures.MixinStructurePiece",
+    "structures.MixinStructureStart",
+    "structures.StructurePieceAccessor",
+    "structures.stronghold.MixinChunkGenerator"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
-    "IStructurePiece",
-    "MineshaftPart",
-    "MineshaftPillarsBack",
-    "MineshaftSkyLimit"
   ]
 }
