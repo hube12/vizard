@@ -50,7 +50,7 @@ public class MixinStructurePiece {
             for (int j = minX; j <= maxX; ++j) {
                 for (int k = minZ; k <= maxZ; ++k) {
                     blockRandomizer.setBlock(random, j, i, k, i == minY || j == minX || j == maxX || k == minZ || k == maxZ); // i == maxY || REMOVE TOP
-                    ((StructurePieceAccessor) this).addBlock(structureWorldAccess, blockRandomizer.getBlock(), j, i, k, blockBox);
+                    ((StructurePieceAccessor) this).invokeAddBlock(structureWorldAccess, blockRandomizer.getBlock(), j, i, k, blockBox);
                 }
             }
         }
@@ -65,9 +65,9 @@ public class MixinStructurePiece {
             for (int j = minX; j <= maxX; ++j) {
                 for (int k = minZ; k <= maxZ; ++k) {
                     if (i != minY && i != maxY && j != minX && j != maxX && k != minZ && k != maxZ) { // see what remove top
-                        ((StructurePieceAccessor) this).addBlock(structureWorldAccess, inside, j, i, k, blockBox);
+                        ((StructurePieceAccessor) this).invokeAddBlock(structureWorldAccess, inside, j, i, k, blockBox);
                     } else {
-                        ((StructurePieceAccessor) this).addBlock(structureWorldAccess, outline, j, i, k, blockBox);
+                        ((StructurePieceAccessor) this).invokeAddBlock(structureWorldAccess, outline, j, i, k, blockBox);
                     }
                 }
             }

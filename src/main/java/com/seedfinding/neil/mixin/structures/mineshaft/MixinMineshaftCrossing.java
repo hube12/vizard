@@ -15,8 +15,8 @@ public class MixinMineshaftCrossing extends MixinAbstractMineshaftPart {
     @Inject(at = @At("HEAD"), method = "generateCrossingPilliar(Lnet/minecraft/world/StructureWorldAccess;Lnet/minecraft/util/math/BlockBox;IIII)V", cancellable = true)
     private void generateCrossingPillar(StructureWorldAccess structureWorldAccess, BlockBox boundingBox, int x, int minY, int z, int maxY, CallbackInfo ci) {
         ci.cancel();
-        if (!((StructurePieceAccessor) this).getBlockAt(structureWorldAccess, x, maxY + 1, z, boundingBox).isAir()) {
-            ((StructurePieceAccessor) this).fillWithOutline(structureWorldAccess, boundingBox, x, minY, z, x, maxY, z, this.getPlanksType(), Blocks.CAVE_AIR.getDefaultState(), false);
+        if (!((StructurePieceAccessor) this).invokeGetBlockAt(structureWorldAccess, x, maxY + 1, z, boundingBox).isAir()) {
+            ((StructurePieceAccessor) this).invokeFillWithOutline(structureWorldAccess, boundingBox, x, minY, z, x, maxY, z, this.getPlanksType(), Blocks.CAVE_AIR.getDefaultState(), false);
         }
     }
 }

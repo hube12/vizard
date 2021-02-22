@@ -12,13 +12,13 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(StructurePiece.class)
 public interface StructurePieceAccessor {
-    @Invoker("getBlockAt")
-    BlockState getBlockAt(BlockView blockView, int x, int y, int z, BlockBox blockBox);
+    @Invoker
+    BlockState invokeGetBlockAt(BlockView blockView, int x, int y, int z, BlockBox blockBox);
 
-    @Invoker("fillWithOutline")
-    void fillWithOutline(StructureWorldAccess structureWorldAccess, BlockBox blockBox, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, BlockState outline, BlockState inside, boolean cantReplaceAir);
+    @Invoker
+    void invokeFillWithOutline(StructureWorldAccess structureWorldAccess, BlockBox blockBox, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, BlockState outline, BlockState inside, boolean cantReplaceAir);
 
-    @Invoker("addBlock")
-    void addBlock(StructureWorldAccess structureWorldAccess, BlockState block, int x, int y, int z, BlockBox blockBox);
+    @Invoker
+    void invokeAddBlock(StructureWorldAccess structureWorldAccess, BlockState block, int x, int y, int z, BlockBox blockBox);
 
 }

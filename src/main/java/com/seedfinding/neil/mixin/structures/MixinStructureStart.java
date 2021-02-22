@@ -76,9 +76,11 @@ public class MixinStructureStart {
                                 }
                                 ProtoChunk chunk = (ProtoChunk) world.getChunk(chunkPos.x, chunkPos.z);
                                 chunk.setShouldSave(true);
+                                int finalTopY = (structurePiece.getBoundingBox().maxY>>4)+1; // optimization (only get send the chunk till the top block of the structure, use 16 sub chunks
+                                System.out.println(finalTopY+" "+Thread.currentThread().getName()+" " +structurePiece.hashCode());
                                 ((ServerChunkManager) world.getChunkManager()).threadedAnvilChunkStorage.
                                         getPlayersWatchingChunk(chunkPos, false).
-                                        forEach(s -> s.networkHandler.sendPacket(new ChunkDataS2CPacket(new WorldChunk(world.toServerWorld(), chunk), 65535)));
+                                        forEach(s -> s.networkHandler.sendPacket(new ChunkDataS2CPacket(new WorldChunk(world.toServerWorld(), chunk), (finalTopY *256)-1)));
                             }
                     );
                     future.join();
