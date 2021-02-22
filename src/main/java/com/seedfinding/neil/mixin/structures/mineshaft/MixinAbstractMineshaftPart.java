@@ -17,7 +17,7 @@ public abstract class MixinAbstractMineshaftPart {
         throw new AbstractMethodError("SHADOW");
     }
 
-    @Inject(at=@At("RETURN"),method = "isSolidCeiling", cancellable = true)
+    @Inject(at=@At("RETURN"),method = "isSolidCeiling(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockBox;IIII)Z", cancellable = true)
     protected void isSolidCeiling(BlockView blockView, BlockBox boundingBox, int minX, int maxX, int y, int z, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(true);
     }

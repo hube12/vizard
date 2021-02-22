@@ -18,12 +18,13 @@
     "structures.endcities.MixinEndCityStart",
     "structures.mineshaft.MixinAbstractMineshaftPart",
     "structures.mineshaft.MixinMineshaftFeature",
-    "structures.stronghold.MixinChunkGenerator"
+    "structures.stronghold.MixinChunkGenerator",
+    "structures.mineshaft.MixinMineshaftCrossing"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
-    "structures.mineshaft.MixinMineshaftCrossing"
+
   ]
 }
