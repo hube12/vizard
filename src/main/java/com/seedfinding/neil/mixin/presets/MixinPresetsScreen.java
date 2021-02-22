@@ -1,4 +1,4 @@
-package com.seedfinding.neil.mixin;
+package com.seedfinding.neil.mixin.presets;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.screen.PresetsScreen;
@@ -24,11 +24,11 @@ import java.util.Comparator;
 import java.util.List;
 
 @Mixin(PresetsScreen.class)
-public class AddPresets {
+public class MixinPresetsScreen {
     @Final
     @Shadow
     @Mutable
-    private static List<AccessFlatPreset> PRESETS; // we use an accessor (don't put it in the inner class)
+    private static List<SuperFlatPresetAccessor> PRESETS; // we use an accessor (don't put it in the inner class)
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void sortList(CallbackInfo ci) {
