@@ -4,26 +4,26 @@
   "package": "com.seedfinding.neil.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
+    "MixinMinecraftServer",
     "client.MixinClientPlayerEntity",
     "client.MixinClientPlayNetworkHandler",
     "client.MixinClientWorld",
     "presets.MixinPresetsScreen",
     "presets.SuperFlatPresetAccessor",
-    "structures.endcities.EndCityAccessor",
-    "structures.endcities.MixinEndCityFeature",
-    "structures.endcities.MixinEndCityStart",
-    "structures.mineshaft.MineshaftSkyLimit",
-    "structures.mineshaft.MixinAbstractMineshaftPart",
-    "structures.mineshaft.MixinMineshaftFeature",
-    "MixinMinecraftServer",
     "structures.MixinStructurePiece",
     "structures.MixinStructureStart",
     "structures.StructurePieceAccessor",
+    "structures.endcities.EndCityAccessor",
+    "structures.endcities.MixinEndCityFeature",
+    "structures.endcities.MixinEndCityStart",
+    "structures.mineshaft.MixinAbstractMineshaftPart",
+    "structures.mineshaft.MixinMineshaftFeature",
     "structures.stronghold.MixinChunkGenerator"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
+    "structures.mineshaft.MixinMineshaftCrossing"
   ]
 }

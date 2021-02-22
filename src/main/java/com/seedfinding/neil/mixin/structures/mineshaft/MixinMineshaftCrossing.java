@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import com.seedfinding.neil.mixin.structures.mineshaft.MixinAbstractMineshaftPart;
 
 @Mixin(MineshaftGenerator.MineshaftCrossing.class)
 public class MixinMineshaftCrossing extends MixinAbstractMineshaftPart {
