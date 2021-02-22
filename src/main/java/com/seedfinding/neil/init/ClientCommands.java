@@ -3,7 +3,6 @@ package com.seedfinding.neil.init;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.seedfinding.neil.command.StartGenCommand;
 import com.seedfinding.neil.command.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;

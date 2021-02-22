@@ -1,8 +1,6 @@
 package com.seedfinding.neil.command;
 
-import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.seedfinding.neil.GenController;
 import net.minecraft.server.command.ServerCommandSource;

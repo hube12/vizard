@@ -9,10 +9,14 @@
     "AddStronghold",
     "ClientPlayerEntityMixin",
     "ClientPlayNetworkHandlerMixin",
+    "Disconnect",
     "MakeStructureAirLess",
     "SetPlayPos00",
     "ThreadStructureGen",
-    "Disconnect"
+    "EndCityOverride",
+    "EndCityStartOverride",
+    "IEndCityOverride",
+    "StructureOverride"
   ],
   "injectors": {
     "defaultRequire": 1
