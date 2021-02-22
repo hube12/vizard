@@ -3,7 +3,6 @@ package com.seedfinding.neil.mixin.structures;
 import net.minecraft.block.BlockState;
 import net.minecraft.structure.StructurePiece;
 import net.minecraft.util.math.BlockBox;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.StructureWorldAccess;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -45,12 +44,13 @@ public class MixinStructurePiece {
 
     @Inject(at = @At("HEAD"), method = "fillWithOutline(Lnet/minecraft/world/StructureWorldAccess;Lnet/minecraft/util/math/BlockBox;IIIIIIZLjava/util/Random;Lnet/minecraft/structure/StructurePiece$BlockRandomizer;)V", cancellable = true)
     protected void fillWithOutline(StructureWorldAccess structureWorldAccess, BlockBox blockBox, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, boolean cantReplaceAir, Random random, StructurePiece.BlockRandomizer blockRandomizer, CallbackInfo ci) {
+        // remove the old method ;)
         ci.cancel();
         for (int i = minY; i <= maxY; ++i) {
             for (int j = minX; j <= maxX; ++j) {
                 for (int k = minZ; k <= maxZ; ++k) {
                     blockRandomizer.setBlock(random, j, i, k, i == minY || j == minX || j == maxX || k == minZ || k == maxZ); // i == maxY || REMOVE TOP
-                    this.addBlock(structureWorldAccess, blockRandomizer.getBlock(), j, i, k, blockBox);
+                    ((StructurePieceAccessor) this).addBlock(structureWorldAccess, blockRandomizer.getBlock(), j, i, k, blockBox);
                 }
             }
         }
@@ -65,9 +65,9 @@ public class MixinStructurePiece {
             for (int j = minX; j <= maxX; ++j) {
                 for (int k = minZ; k <= maxZ; ++k) {
                     if (i != minY && i != maxY && j != minX && j != maxX && k != minZ && k != maxZ) { // see what remove top
-                        this.addBlock(structureWorldAccess, inside, j, i, k, blockBox);
+                        ((StructurePieceAccessor) this).addBlock(structureWorldAccess, inside, j, i, k, blockBox);
                     } else {
-                        this.addBlock(structureWorldAccess, outline, j, i, k, blockBox);
+                        ((StructurePieceAccessor) this).addBlock(structureWorldAccess, outline, j, i, k, blockBox);
                     }
                 }
             }
@@ -75,19 +75,8 @@ public class MixinStructurePiece {
 
     }
 
-    @Shadow
-    protected BlockState getBlockAt(BlockView blockView, int x, int y, int z, BlockBox blockBox) {
-        throw new AbstractMethodError("Shadow");
-    }
-
-    @Shadow
-    protected void addBlock(StructureWorldAccess structureWorldAccess, BlockState block, int x, int y, int z, BlockBox blockBox) {
-
-    }
     @Inject(method = "isUnderSeaLevel", at = @At("RETURN"), cancellable = true)
     private void isUnderSeaLevel(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(true);
-    }
-
-
+    }   
 }

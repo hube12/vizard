@@ -92,12 +92,8 @@ public class MixinStructureStart {
                 }
                 this.setBoundingBoxFromChildren();
             }, "STRUCTURE THREAD + " + counter++);
-
-
             Instance.genController.register(thread, transferQueue);
             thread.start();
-
-
         }
     }
 
