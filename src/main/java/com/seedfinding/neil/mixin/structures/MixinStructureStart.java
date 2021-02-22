@@ -69,15 +69,17 @@ public class MixinStructureStart {
                         e.printStackTrace();
                     }
                     StructurePiece structurePiece = iterator.next();
+//                    String name=Thread.currentThread().getName();
                     CompletableFuture<Void> future = server.submit(
                             () -> {
                                 if (structurePiece.getBoundingBox().intersects(box) && !structurePiece.generate(world, structureAccessor, chunkGenerator, random, box, chunkPos, blockPos)) {
                                     iterator.remove();
+//                                    System.out.println("DONE");
                                 }
                                 ProtoChunk chunk = (ProtoChunk) world.getChunk(chunkPos.x, chunkPos.z);
                                 chunk.setShouldSave(true);
                                 int finalTopY = (structurePiece.getBoundingBox().maxY>>4)+1; // optimization (only get send the chunk till the top block of the structure, use 16 sub chunks
-                                System.out.println(finalTopY+" "+Thread.currentThread().getName()+" " +structurePiece.hashCode());
+//                                System.out.println(finalTopY+" "+name+" " +box.toString()+" "+iterator.hashCode());
                                 ((ServerChunkManager) world.getChunkManager()).threadedAnvilChunkStorage.
                                         getPlayersWatchingChunk(chunkPos, false).
                                         forEach(s -> s.networkHandler.sendPacket(new ChunkDataS2CPacket(new WorldChunk(world.toServerWorld(), chunk), (finalTopY *256)-1)));
@@ -94,6 +96,7 @@ public class MixinStructureStart {
                 }
                 this.setBoundingBoxFromChildren();
             }, "STRUCTURE THREAD + " + counter++);
+//            System.out.println(box.toString()+" "+(counter-1));
             Instance.genController.register(thread, transferQueue);
             thread.start();
         }
