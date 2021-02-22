@@ -10,18 +10,21 @@
     "ClientPlayerEntityMixin",
     "ClientPlayNetworkHandlerMixin",
     "Disconnect",
-    "MakeStructureAirLess",
-    "SetPlayPos00",
-    "ThreadStructureGen",
     "EndCityOverride",
     "EndCityStartOverride",
     "IEndCityOverride",
-    "StructureOverride"
+    "MakeStructureAirLess",
+    "SetPlayPos00",
+    "StructureOverride",
+    "ThreadStructureGen"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
-
+    "IStructurePiece",
+    "MineshaftPart",
+    "MineshaftPillarsBack",
+    "MineshaftSkyLimit"
   ]
 }

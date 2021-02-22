@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Random;
 
@@ -82,6 +83,10 @@ public class MakeStructureAirLess {
     @Shadow
     protected void addBlock(StructureWorldAccess structureWorldAccess, BlockState block, int x, int y, int z, BlockBox blockBox) {
 
+    }
+    @Inject(method = "isUnderSeaLevel", at = @At("RETURN"), cancellable = true)
+    private void isUnderSeaLevel(CallbackInfoReturnable<Boolean> cir) {
+        cir.setReturnValue(true);
     }
 
 
